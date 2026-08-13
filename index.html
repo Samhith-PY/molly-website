@@ -336,6 +336,7 @@
     @keyframes success-flash { from{opacity:0} 35%{opacity:1} to{opacity:0} }
     .yoshi-turtle { display: flex; align-items: center; justify-content: center; gap: 8px; width: max-content; margin: 24px auto 0; padding: 8px 15px 8px 11px; border: 1px solid rgba(255,255,255,.72); border-radius: 999px; background: rgba(255,255,255,.38); box-shadow: 0 8px 22px rgba(91,105,69,.12); backdrop-filter: blur(8px); font: 600 20px/1 "Caveat",cursive; color: #66804f; animation: yoshi-waddle 3.2s ease-in-out infinite; }
     .yoshi-turtle span { display: inline-block; font: 27px/1 sans-serif; filter: drop-shadow(0 3px 4px rgba(70,91,52,.2)); }
+    .yoshi-note { width: min(88vw, 500px); margin: 13px auto 0; color: rgba(112,71,86,.72); font: 600 19px/1.25 "Caveat",cursive; }
     @keyframes yoshi-waddle { 0%,100% { transform: translateX(-3px) rotate(-1deg); } 50% { transform: translateX(3px) rotate(1deg); } }
 
     @media (max-width: 650px) {
@@ -386,6 +387,7 @@
         </button>
         <p class="open-note">a tiny little love letter, just for you</p>
         <div class="yoshi-turtle" aria-label="Yoshi the turtle"><span aria-hidden="true">🐢</span> Yoshi</div>
+        <p class="yoshi-note">you're welcome for birthing yoshi, yoshi is the cutest mf ever i love that lil dude</p>
 
         <div class="letter-wrap" id="letter-wrap">
           <div class="letter-overflow">

@@ -334,9 +334,12 @@
     @keyframes message-fade { 0%,100%{opacity:0;transform:translateY(5px)} 15%,75%{opacity:1;transform:none} }
     @keyframes trail { to { opacity:0; transform:translate(var(--dx),var(--dy)) scale(.1) rotate(90deg); } }
     @keyframes success-flash { from{opacity:0} 35%{opacity:1} to{opacity:0} }
-    .yoshi-turtle { display: flex; align-items: center; justify-content: center; gap: 8px; width: max-content; margin: 24px auto 0; padding: 8px 15px 8px 11px; border: 1px solid rgba(255,255,255,.72); border-radius: 999px; background: rgba(255,255,255,.38); box-shadow: 0 8px 22px rgba(91,105,69,.12); backdrop-filter: blur(8px); font: 600 20px/1 "Caveat",cursive; color: #66804f; animation: yoshi-waddle 3.2s ease-in-out infinite; }
+    .yoshi-turtle { display: flex; align-items: center; justify-content: center; gap: 8px; width: max-content; margin: 24px auto 0; padding: 8px 15px 8px 11px; border: 1px solid rgba(255,255,255,.72); border-radius: 999px; background: rgba(255,255,255,.38); box-shadow: 0 8px 22px rgba(91,105,69,.12); backdrop-filter: blur(8px); font: 600 20px/1 "Caveat",cursive; color: #66804f; cursor: pointer; animation: yoshi-waddle 3.2s ease-in-out infinite; }
+    .yoshi-turtle:hover { box-shadow: 0 11px 28px rgba(91,105,69,.2), 0 0 0 4px rgba(255,255,255,.2); }
+    .yoshi-turtle:focus-visible { outline: 3px solid rgba(102,128,79,.38); outline-offset: 5px; }
     .yoshi-turtle span { display: inline-block; font: 27px/1 sans-serif; filter: drop-shadow(0 3px 4px rgba(70,91,52,.2)); }
-    .yoshi-note { width: min(88vw, 500px); margin: 13px auto 0; color: rgba(112,71,86,.72); font: 600 19px/1.25 "Caveat",cursive; }
+    .yoshi-note { width: min(88vw, 500px); max-height: 0; overflow: hidden; margin: 0 auto; color: rgba(112,71,86,.72); font: 600 19px/1.25 "Caveat",cursive; opacity: 0; transform: translateY(-5px) scale(.97); transition: max-height .55s ease, margin .4s ease, opacity .4s ease, transform .45s cubic-bezier(.2,.8,.2,1); }
+    .yoshi-note.visible { max-height: 90px; margin-top: 13px; opacity: 1; transform: none; }
     @keyframes yoshi-waddle { 0%,100% { transform: translateX(-3px) rotate(-1deg); } 50% { transform: translateX(3px) rotate(1deg); } }
 
     @media (max-width: 650px) {
@@ -386,8 +389,8 @@
           <span class="seal">♥</span>
         </button>
         <p class="open-note">a tiny little love letter, just for you</p>
-        <div class="yoshi-turtle" aria-label="Yoshi the turtle"><span aria-hidden="true">🐢</span> Yoshi</div>
-        <p class="yoshi-note">you're welcome for birthing yoshi, yoshi is the cutest mf ever i love that lil dude</p>
+        <button class="yoshi-turtle" id="yoshi-turtle" type="button" aria-label="Reveal Yoshi's message" aria-controls="yoshi-note" aria-expanded="false"><span aria-hidden="true">🐢</span> Yoshi</button>
+        <p class="yoshi-note" id="yoshi-note">you're welcome for birthing yoshi, yoshi is the cutest mf ever i love that lil dude</p>
 
         <div class="letter-wrap" id="letter-wrap">
           <div class="letter-overflow">
@@ -541,6 +544,17 @@
         setTimeout(() => letterWrap.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "center" }), 950);
       }
       openButton.addEventListener("click", openLetter);
+
+      const yoshiButton = document.querySelector("#yoshi-turtle");
+      const yoshiNote = document.querySelector("#yoshi-note");
+      yoshiButton.addEventListener("click", () => {
+        const isVisible = yoshiNote.classList.toggle("visible");
+        yoshiButton.setAttribute("aria-expanded", String(isVisible));
+        if (isVisible) {
+          const rect = yoshiButton.getBoundingClientRect();
+          burst(rect.left + rect.width / 2, rect.top + rect.height / 2, 12);
+        }
+      });
 
       document.querySelectorAll(".click-heart").forEach(heart => {
         const react = () => {
